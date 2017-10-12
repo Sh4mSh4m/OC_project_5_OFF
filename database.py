@@ -91,7 +91,8 @@ def req_recommandations(connection, name_category_fr, product_selected, length):
               AND (P.name_product <> ' ') 
               AND (P.nutrition IS NOT NULL)
               AND (P.name_product NOT LIKE %s )
-              ORDER BY P.nutrition
+              ORDER BY P.nutrition,
+              GROUP BY P.name_product,
               LIMIT %s"""
         cursor.execute(sql, (name_category_fr, product_selected + '%', length))
         result = cursor.fetchall()
@@ -117,6 +118,6 @@ def push_saves(recommandation_dict):
         sql = """INSERT IGNORE INTO Saves
                (saved_product_id)
                VALUES (%s)"""
-        cursor.execute(sql, (recommandation_dict['Product.id'],))
+        cursor.execute(sql, (recommandation_dict['id'],))
     connection.commit()
     connection.close()

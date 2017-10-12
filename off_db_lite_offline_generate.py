@@ -42,7 +42,7 @@ def db_init():
                                  name_category VARCHAR(200) NOT NULL,\
                                  nb_products INT UNSIGNED,\
                                  PRIMARY KEY(id)\
-                                 )"
+                                 ) ENGINE = InnoDB"
     sql_dtable_products = "DROP TABLE IF EXISTS Products"
     sql_ctable_products = "CREATE TABLE Products (\
                                id INT UNSIGNED AUTO_INCREMENT,\
@@ -54,17 +54,17 @@ def db_init():
                                url VARCHAR(200) DEFAULT NULL,\
                                code BIGINT UNSIGNED,\
                                PRIMARY KEY(id)\
-                               )"
+                               ) ENGINE = InnoDB"
     sql_dtable_product_category = "DROP TABLE IF EXISTS Product_category"
     sql_ctable_product_category = "CREATE TABLE Product_category (\
                                        name_category_fr_b VARCHAR(200),\
                                        name_product_b VARCHAR(200)\
-                                       )"
-    sql_atables_fk = "ALTER TABLE Product_category\
-                          ADD CONSTRAINT fk_name_category_fr \
-                              FOREIGN KEY (name_category_fr_b) REFERENCES Categories(name_category_fr),\
-                          ADD CONSTRAINT fk_products_b \
-                              FOREIGN KEY (name_product_b) REFERENCES Products(name_product)"
+                                       ) ENGINE = InnoDB"
+    sql_atables_fk = """ALTER TABLE Product_category
+                          ADD CONSTRAINT fk_name_category_fr 
+                              FOREIGN KEY (name_category_fr_b) REFERENCES Categories(name_category_fr),
+                          ADD CONSTRAINT fk_products_b 
+                              FOREIGN KEY (name_product_b) REFERENCES Products(name_product)"""
     sql_index_category = "CREATE UNIQUE INDEX unique_category\
                                ON Categories(name_category)"
     sql_index_product = "CREATE UNIQUE INDEX unique_product\
