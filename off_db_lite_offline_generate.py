@@ -13,9 +13,6 @@ import datetime
 # Database initiation #
 #######################
 
-
-
-
 def push_data_categories(connection, three_tuples):
     with connection.cursor() as cursor:
         # Create a new record
@@ -31,7 +28,7 @@ def db_connect():
                                  password='hieuhieu81',
                                  db='off',
                                  charset='utf8',
-                                 cursorclass=pymysql.cursors.DictCursor)#
+                                 cursorclass=pymysql.cursors.DictCursor)
     return connection
 
 def db_init():
@@ -62,9 +59,11 @@ def db_init():
                                        ) ENGINE = InnoDB"
     sql_atables_fk = """ALTER TABLE Product_category
                           ADD CONSTRAINT fk_name_category_fr 
-                              FOREIGN KEY (name_category_fr_b) REFERENCES Categories(name_category_fr),
+                              FOREIGN KEY (name_category_fr_b) 
+                              REFERENCES Categories(name_category_fr),
                           ADD CONSTRAINT fk_products_b 
-                              FOREIGN KEY (name_product_b) REFERENCES Products(name_product)"""
+                              FOREIGN KEY (name_product_b) 
+                              REFERENCES Products(name_product)"""
     sql_index_category = "CREATE UNIQUE INDEX unique_category\
                                ON Categories(name_category)"
     sql_index_product = "CREATE UNIQUE INDEX unique_product\
@@ -102,7 +101,9 @@ def db_data_push():
     for cat_num in range(1736, 1738):
         category = categories_list[cat_num]
         products_total = category.get('products')
-        three_tuples = (category.get('name'), category.get('id'), products_total)
+        three_tuples = (category.get('name'), \
+                        category.get('id'), \
+                        products_total)
         push_data_categories(connection1, three_tuples)
         category_url = category.get('url')
         products_page_total = int(math.ceil(products_total/20))
