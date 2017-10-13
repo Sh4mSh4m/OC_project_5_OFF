@@ -1,0 +1,44 @@
+{
+	"features": {
+		"opening": "\n\n\n\n\n\n\n\n\n\n\n******************************************************\n* Welcome to the Nutritious Food replacement program *\n******************************************************\n\nSearch a product in the Open Food Facts database and find a healthy substitute\n\nInstructions - Look up a category, then look up a product\nThe program will hand you a selection of healthy replacements ! You can save your recommandation and consult more info on it in the Look up saved recommandation section :)\nPlease make a selection",
+		"main_options": "\n1 - Lookup categories\n2 - Lookup saved recommandations\n",
+		"exit_option": "\nEnter F to exit program\n"
+	},
+	"categories": {
+		"loading": "\nLoading... Please wait\n\n",
+		"index": "\nThanks for waiting, there are {} pages of categories",
+		"index_position": "You are currently browsing page {} out of {}",
+		"index_sorting": "Categories are ordered from largest to smallest categories",
+		"navigation_instruction": "\nEnter a number from 1 to 10 to select a category\n\nEnter 'j' to jump to another page of result\nEnter 'e' to exit\nEnter 'n' to go to the next page\nEnter 'p' to go to the previous page\n",
+		"input_error": "Please enter a number from 1 to {}, E, J ou N",
+		"item_display": "\n\nYou have selected {} {} {}\nCommon description is {}\nThis product has a {} nutrition grade\nYou can find more info with the following url:\n{}"
+	},
+	"products": {
+		"loading": "\nProducts list loading...\n\n",
+		"index": "\nThanks for waiting, there are {} pages of products",
+		"index_position": "\n\nYou are currently browsing page {} out of {}",
+		"index_sorting": "Products are ordered alphabetically",
+		"navigation_instruction": "\nEnter a number from 1 to 10 to select a product\n\nEnter 'j' to jump to another page of result\nEnter 'e' to exit\nEnter 'n' to go to the next page\nEnter 'p' to go to the previous page\n",
+		"input_error": "Please enter a number from 1 to {}, E, J ou N"	
+	},
+	"recommandations": {
+		"loading": "\nRecommandations list loading...\n\n",
+		"index": "\nThanks for waiting, there are {} pages of recommandations",
+		"index_position": "\n\n",
+		"index_sorting": "Recommandations are ordered alphabetically",
+		"navigation_instruction": "\nEnter a number from 1 to 10 to select a recommandation\n\nEnter 'j' to jump to another page of result\nEnter 'e' to exit\nEnter 'n' to go to the next page\nEnter 'p' to go to the previous page\n",
+		"input_error": "Please enter a number from 1 to {}, E, J ou N",
+		"save_proposal": "\nDo you want to save that selection ?",
+		"save_input_error": "\nPlease enter yes or no",
+		"item_display": "\n\nYou have selected {} {} {}\nCommon description is {}\nThis product has a {} nutrition grade\nYou can find more info with the following url:\n{}"
+	},
+	"saves": {
+		"loading": "\nSaves list loading...\n\n",
+		"index": "\nThanks for waiting, there are {} pages of saves",
+		"index_position": "\n\nYou are currently browsing page {} out of {}",
+		"index_sorting": "Saves are ordered oldest to latest",
+		"navigation_instruction": "\nEnter a number from 1 to 10 to select a save\n\nEnter 'j' to jump to another page of result\nEnter 'e' to exit\nEnter 'n' to go to the next page\nEnter 'p' to go to the previous page\n",
+		"input_error": "Please enter a number from 1 to {}, E, J ou N",
+		"item_display": "\n\nYou have selected {} {} {}\nCommon description is {}\nThis product has a {} nutrition grade\nYou can find more info with the following url:\n{}"
+	}
+}
