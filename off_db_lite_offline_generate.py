@@ -8,30 +8,27 @@ import requests
 import pymysql.cursors
 import math
 import datetime
+import json
 
 #######################
 # Database initiation #
 #######################
 
-def push_data_categories(connection, three_tuples):
-    with connection.cursor() as cursor:
-        # Create a new record
-        sql = "INSERT IGNORE INTO `Categories` \
-               (`name_category_fr`, `name_category`, `nb_products`) \
-               VALUES (%s, %s, %s)"
-        cursor.execute(sql, three_tuples)
-
 def db_connect():
-    ## Connect to the database
+    """ Connects to the database
+    """
+    db_cred = json.load(open("db_cred.json"))
     connection = pymysql.connect(host='localhost',
-                                 user='sql_script',
-                                 password='hieuhieu81',
+                                 user=db_cred['user'],
+                                 password=db_cred['password'],
                                  db='off',
                                  charset='utf8',
                                  cursorclass=pymysql.cursors.DictCursor)
     return connection
 
 def db_init():
+    """ Function that initiates the tables and sets the keys and indexes
+    """
     sql_dtable_categories = "DROP TABLE IF EXISTS Categories"
     sql_ctable_categories = "CREATE TABLE Categories (\
                                  id INT UNSIGNED AUTO_INCREMENT,\
@@ -67,8 +64,15 @@ def db_init():
     sql_index_category = "CREATE UNIQUE INDEX unique_category\
                                ON Categories(name_category)"
     sql_index_product = "CREATE UNIQUE INDEX unique_product\
-                             ON Products(name_product, brand, quantity)"    
-
+                             ON Products(name_product, brand, quantity)"
+#CREATE TABLE saves (
+#    id INT UNSIGNED AUTO_INCREMENT,
+#    saved_product_id INT UNSIGNED,
+#    PRIMARY KEY(id)
+#)
+#ENGINE=InnoDB;#
+#
+#CREATE UNIQUE INDEX unique_saves ON Saves(saved_product_id);
     connection = db_connect()
 
     try:
@@ -83,13 +87,15 @@ def db_init():
             cursor.execute(sql_index_product)
             cursor.execute(sql_index_category)
     finally:
-    	pass#    
+    	pass
 
     connection.commit()
     connection.close()  
     
 
 def db_data_push():
+    """ Function that retrieves json from the OFF API and push data to the database
+    """
     connection1 = db_connect()
     # retrieve data 
     raw_json_categories_data = requests.get('https://fr.openfoodfacts.org/categories.json')
@@ -97,7 +103,7 @@ def db_data_push():
     categories_nb = categories_data['count']
     categories_list = categories_data['tags']##    
 
-    ## Cycle the list and update Categorie table
+    # Cycle the list and update Categorie table
     for cat_num in range(1736, 1738):
         category = categories_list[cat_num]
         products_total = category.get('products')
@@ -108,6 +114,7 @@ def db_data_push():
         category_url = category.get('url')
         products_page_total = int(math.ceil(products_total/20))
         print("Je charge les produits de la categorie {}".format(cat_num + 1)) 
+        # For each categorie, browses through the pages of 20 products in that category
         for product_page in range(products_page_total):
             products_url = str("{}/{}.json".format(category_url, product_page + 1))
             raw_json_data_products = requests.get(products_url)
@@ -115,9 +122,11 @@ def db_data_push():
             products_list = products_data['products']
             products_list_size = len(products_list)
             #print("page {} sur {}".format(product_page, products_page_total))
-
+            # for each product in the list, retrieves the subdata
             for product_num in range(products_list_size):
                 products_item = products_list[product_num]
+                # Some products have no brand_tags, could use pop or get methods 
+                # to override errors and set a default value.
                 try:
                     brand_special = str('-'.join(products_item.get('brands_tags')))
                 except TypeError:
@@ -137,7 +146,19 @@ def db_data_push():
             connection1.commit()
     connection1.close()
 
+def push_data_categories(connection, three_tuples):
+    """ Push data in the categories table
+    """
+    with connection.cursor() as cursor:
+        # Create a new record
+        sql = "INSERT IGNORE INTO `Categories` \
+               (`name_category_fr`, `name_category`, `nb_products`) \
+               VALUES (%s, %s, %s)"
+        cursor.execute(sql, three_tuples)
+
 def push_data_products(connection, prod_tuples):
+    """ Push data in the products table
+    """
     with connection.cursor() as cursor:
     # Create a new record
         sql = "INSERT IGNORE INTO `Products` \
@@ -146,6 +167,8 @@ def push_data_products(connection, prod_tuples):
         cursor.execute(sql, prod_tuples)
 
 def push_data_product_category(connection, prod_cat_tuples):
+    """ Push data in the product_category table
+    """
     with connection.cursor() as cursor:
         sql = "INSERT IGNORE INTO `Product_category` \
                (`name_category_fr_b`, `name_product_b`) \
@@ -154,6 +177,7 @@ def push_data_product_category(connection, prod_cat_tuples):
 
 
 def main():
+    # Commented off the table initiator
     #print(datetime.datetime.now())
     #db_init()
     db_data_push()
@@ -165,11 +189,3 @@ if __name__ == "__main__":
 
 
 
-#CREATE TABLE saves (
-#    id INT UNSIGNED AUTO_INCREMENT,
-#    saved_product_id INT UNSIGNED,
-#    PRIMARY KEY(id)
-#)
-#ENGINE=InnoDB;#
-
-#CREATE UNIQUE INDEX unique_saves ON Saves(saved_product_id);

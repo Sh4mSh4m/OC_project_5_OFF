@@ -29,8 +29,8 @@ class PageCategories():
         db.disconnect(connection)
 
     @classmethod
-    def calculates_pages(cls):
-        """ Class method that retrives the number of categories
+    def get_number_cat(cls):
+        """ Class method that retrieves the number of categories
         """
         connection = db.connect()
         nb_cat = db.req_categories_count(connection)
@@ -41,7 +41,7 @@ class PageCategories():
     def initiates_index(cls):
         """ Class method that creates the index of pages
         """
-        nb_cat = cls.calculates_pages()
+        nb_cat = cls.get_number_cat()
         nb_pages_cat = int(ceil(nb_cat / cls.OFFSET))
         for page_number in range(nb_pages_cat):
             page = PageCategories(page_number)
