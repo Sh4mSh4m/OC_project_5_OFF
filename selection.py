@@ -123,6 +123,7 @@ class MenuProducts(MenuCategories):
     def calls_prod_index(self):
         """ Method that populates the index of product pages
         """
+        menu.PageProducts.resets_index()
         menu.PageProducts.initiates_prod_index(self.category_selected)
         self.pages_index = menu.PageProducts.PROD_PER_CAT_PAGES_INDEX
         self.max_page_number = len(self.pages_index)

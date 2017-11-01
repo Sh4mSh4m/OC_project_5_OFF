@@ -77,6 +77,9 @@ class PageProducts(PageCategories):
             cls.PROD_PER_CAT_PAGES_INDEX.append(page_prod)
         db.disconnect(connection)
 
+    @classmethod
+    def resets_index(cls):
+        cls.PROD_PER_CAT_PAGES_INDEX = []
 
 class PageRecommandation(PageCategories):
     """ Subclass with its own methods for recommandations

@@ -44,7 +44,7 @@ def main():
             result_cat_select_dict = menu_categories.entry_selection()
             if not result_cat_select_dict:
                 # Case when exiting category selection
-                selection = 0
+                pass
             else:
                 category_selected = result_cat_select_dict['name_category_fr']
                 # Products pages loading
@@ -55,7 +55,8 @@ def main():
                 # returns dict if a product is selected
                 result_prod_select_dict = menu_products.entry_selection()
                 if not result_prod_select_dict:
-                    selection = 0
+                    result_cat_select_dict = {}
+                    pass
                 else:
                     product_selected_dict = result_prod_select_dict
                     # Recommandations page loading
@@ -67,7 +68,8 @@ def main():
                     # returns the dictionnary with all the recommandation data
                     result_rec_select_dict = menu_recommandations.entry_selection()
                     if not result_rec_select_dict:
-                        selection = 0
+                        del menu_recommandations
+                        pass
                     else:
                         recommandation_selected_dict = result_rec_select_dict
                         # Displays detailed info on recommandation selected
@@ -80,7 +82,12 @@ def main():
             menu_saves = select.MenuSaves(text_saves)
             menu_saves.calls_saves_index()
             save_selected_dict = menu_saves.entry_selection()
-            menu_saves.view_detailed_info(save_selected_dict)
+            if not save_selected_dict:
+                # Case when exiting selection
+                del menu_saves
+                pass
+            else:
+                menu_saves.view_detailed_info(save_selected_dict)
         elif str.lower(selection) == 'f':
             # farewell message, cause we aren't savages
             print("\n\nSee you soon and have a nice day !\n\n")
